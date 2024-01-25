@@ -39,7 +39,7 @@ public class BulletController : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (IsServer)
+        if (IsOwner)
         {
             rb.MovePosition(transform.position + transform.right * speed * Time.fixedDeltaTime);
             Debug.Log(rb.position);

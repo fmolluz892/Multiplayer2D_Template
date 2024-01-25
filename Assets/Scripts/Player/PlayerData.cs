@@ -8,17 +8,18 @@ using Unity.Netcode;
 public struct PlayerData : IEquatable<PlayerData>, INetworkSerializable
 {
     public FixedString64Bytes playerName;
-    public FixedString64Bytes playerId;
+    public ulong clientId; 
     public int skinIndex;
-    public ulong clientId;
+    public Color color;
+    public FixedString64Bytes playerId;
 
 
     public bool Equals(PlayerData other)
     {
         return
             playerName == other.playerName &&
-            playerId == other.playerId &&
             skinIndex == other.skinIndex &&
+            color == other.color &&
             playerId == other.playerId;
     }
 
@@ -26,8 +27,9 @@ public struct PlayerData : IEquatable<PlayerData>, INetworkSerializable
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
         serializer.SerializeValue(ref playerName);
-        serializer.SerializeValue(ref clientId);
-        serializer.SerializeValue(ref playerId);
+        serializer.SerializeValue(ref clientId);        
         serializer.SerializeValue(ref skinIndex);   
+        serializer.SerializeValue(ref color);
+        serializer.SerializeValue(ref playerId);
     }
 }
