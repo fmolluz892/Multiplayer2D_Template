@@ -42,16 +42,13 @@ public class CharacterSelectUI : MonoBehaviour
         readyButton.onClick.AddListener(() =>
         {
             GameManager.Instance.SetPlayerReady();
+            MultiplayerManager.Instance.IsPlayerReady(true);
             readyButton.interactable = false;
             var colors = readyButton.colors;
             colors.disabledColor = new Color(0.5f, 1, 0, 1);
             Debug.Log("Player Ready: " + GameManager.Instance.IsLocalPlayerReady());
             Debug.Log("Game Ready: " + GameManager.Instance.gameReady.Value);
-            if (NetworkManager.Singleton.IsHost /*&& GameManager.Instance.gameReady.Value*/ )
-            {
-                NetworkManager.Singleton.SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
-                
-            }
+            
         });
 
         // Cambio de Skin
@@ -103,9 +100,10 @@ public class CharacterSelectUI : MonoBehaviour
 
     private void GameManager_OnLocalPlayerReadyChanged(object sender, EventArgs e)
     {
-        if (GameManager.Instance.IsLocalPlayerReady())
+        if (NetworkManager.Singleton.IsHost && GameManager.Instance.gameReady.Value)
         {
-            Debug.Log("Jugador Listo");
-        }       
+            NetworkManager.Singleton.SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
+
+        }
     }
 }

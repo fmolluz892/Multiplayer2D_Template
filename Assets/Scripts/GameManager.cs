@@ -72,8 +72,7 @@ public class GameManager : NetworkBehaviour
             {
                 Transform playerTransform = Instantiate(playerPrefab);
                 playerTransform.GetComponent<PlayerController>().PlayerSetUp(clientId);
-                playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
-                
+                playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);               
 
             }
         }
@@ -85,8 +84,19 @@ public class GameManager : NetworkBehaviour
 
     private void GameManager_OnGameReadyChanged(object sender, EventArgs e)
     {
-        Debug.Log("Partida preparada");
+        if (gameReady.Value)
+        {
+            GameManagerLoadSeceneServerRpc();
+        }
     }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    private void GameManagerLoadSeceneServerRpc()
+    {
+        NetworkManager.Singleton.SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
+    }
+
 
     private void GameManager_OnLocalPlayerReadyChanged(object sender, EventArgs e)
     {
@@ -128,6 +138,7 @@ public class GameManager : NetworkBehaviour
         if(allClientsReady)
         {
             gameReady.Value = true;
+            OnGameRadyChanged?.Invoke(this, EventArgs.Empty);
         }
 
 

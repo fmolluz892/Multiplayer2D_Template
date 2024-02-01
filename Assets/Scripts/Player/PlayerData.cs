@@ -12,6 +12,7 @@ public struct PlayerData : IEquatable<PlayerData>, INetworkSerializable
     public int skinIndex;
     public Color color;
     public FixedString64Bytes playerId;
+    public bool isPlayerReady;
 
 
     public bool Equals(PlayerData other)
@@ -20,7 +21,8 @@ public struct PlayerData : IEquatable<PlayerData>, INetworkSerializable
             playerName == other.playerName &&
             skinIndex == other.skinIndex &&
             color == other.color &&
-            playerId == other.playerId;
+            playerId == other.playerId &&
+            isPlayerReady == other.isPlayerReady;
     }
 
 
@@ -31,5 +33,6 @@ public struct PlayerData : IEquatable<PlayerData>, INetworkSerializable
         serializer.SerializeValue(ref skinIndex);   
         serializer.SerializeValue(ref color);
         serializer.SerializeValue(ref playerId);
+        serializer.SerializeValue(ref isPlayerReady);
     }
 }

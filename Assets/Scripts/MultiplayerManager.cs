@@ -222,6 +222,24 @@ public class MultiplayerManager : NetworkBehaviour
         playerDataNetworkList[playerDataIndex] = playerData;
     }
 
+    public void IsPlayerReady(bool isReady)
+    {
+        IsPlayerReadyServerRpc(isReady);
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    private void IsPlayerReadyServerRpc(bool isReady, ServerRpcParams serverRpcParams = default)
+    {
+        int playerDataIndex = GetPlayerDataIndexFromClientId(serverRpcParams.Receive.SenderClientId);
+
+        PlayerData playerData = playerDataNetworkList[playerDataIndex];
+
+        playerData.isPlayerReady = isReady;
+
+        playerDataNetworkList[playerDataIndex] = playerData;
+    }
+
 
     public void KickPlayer(ulong clientId)
     {

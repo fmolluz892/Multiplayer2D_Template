@@ -39,6 +39,8 @@ public class CharacterSelectPlayer : MonoBehaviour
             
             PlayerData playerData = MultiplayerManager.Instance.GetPlayerDataFromPlayerIndex(playerIndex);
             playerNameTmpTxt.text = playerData.playerName.ToString();
+           
+
 
             // Actualización del Skin
             foreach(GameObject skin in skinList) {
@@ -50,7 +52,13 @@ public class CharacterSelectPlayer : MonoBehaviour
             if(playerData.color != null) {
                 GetComponentInChildren<SpriteRenderer>().color = playerData.color;
             }
-                        
+
+            // Actualización de Ready
+            if (playerData.isPlayerReady)
+            {
+                readyGameObject.SetActive(true);
+            }
+
 
         }
         else

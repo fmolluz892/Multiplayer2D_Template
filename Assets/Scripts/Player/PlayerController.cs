@@ -58,6 +58,17 @@ public class PlayerController : NetworkBehaviour
         localPlayerData = MultiplayerManager.Instance.GetPlayerDataFromClientId(OwnerClientId);
         
         OnAnyPlayerSpawned?.Invoke(this, EventArgs.Empty);
+
+        if(IsServer)
+        {
+            NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+        }
+        
+    }
+
+    private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
+    {
+        throw new NotImplementedException();
     }
 
 
