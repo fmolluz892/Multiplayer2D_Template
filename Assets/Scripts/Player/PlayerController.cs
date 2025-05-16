@@ -68,7 +68,10 @@ public class PlayerController : NetworkBehaviour
 
     private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
     {
-        throw new NotImplementedException();
+        if(clientId == OwnerClientId)
+        {
+            // Destruimos los objetos que pueda tener asociados
+        }
     }
 
 
